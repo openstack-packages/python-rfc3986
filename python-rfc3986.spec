@@ -1,36 +1,42 @@
+# Created by pyp2rpm-1.1.0b
 %global pypi_name rfc3986
 
-Name:           python-rfc3986
+Name:           python-%{pypi_name}
 Version:        XXX
-Release:        1%{?dist}
-Summary:        general-purpose rfc3986 library,
+Release:        XXX{?dist}
+Summary:        Validating URI References per RFC 3986
 
 License:        ASL 2.0
-URL:            https://github.com/openstack-packages/python-rfc3986
-Source0:        https://pypi.python.org/packages/source/o/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+URL:            https://pypi.python.org/pypi/rfc3986
+Source0:        https://pypi.python.org/packages/source/r/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python2-devel
-BuildRequires:  python-pbr
 
 
 %description
-A Python implementation of `RFC 3986`_ including validation and authority parsing.
+A Python implementation of RFC 3986 including validation and authority parsing.
+
 
 %prep
-%setup -q -n rfc3986-%{upstream_version}
+%setup -q -n %{pypi_name}-%{upstream_version}
+# Remove bundled egg-info
+rm -rf %{pypi_name}.egg-info
+
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
+
 
 %install
-%{__python} setup.py install --skip-build --root %{buildroot}
+%{__python2} setup.py install --skip-build --root %{buildroot}
+
 
 %files
 %doc README.rst LICENSE
-%{python_sitelib}/rfc3986
-%{python_sitelib}/rfc3986-*.egg-info
+%{python2_sitelib}/%{pypi_name}
+%{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 
 %changelog
-* Thu Aug 28 2014 Derek Higgins <derekh@redhat.com> - XXX
+* Mon Sep 15 2014 Alan Pevec <apevec@redhat.com> - 0.2.0-1
 - Initial package.
